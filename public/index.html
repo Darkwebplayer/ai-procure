@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoiceProcure AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <aside class="left-rail">
+      <div class="brand-mark">99</div>
+      <button class="rail-btn active">Search</button>
+      <button class="rail-btn">History</button>
+      <button class="rail-btn">Stats</button>
+    </aside>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>VoiceProcure <span>AI</span></h1>
+          <p>Automated Sourcing System</p>
+        </div>
+        <div class="status-pill"><i></i> System Online</div>
+      </header>
+
+      <section class="hero">
+        <h2>What are you <em>looking for?</em></h2>
+
+        <form id="job-form" class="query-box">
+          <input id="requestText" type="text" placeholder="Roofing repair for 1,200 sqft home" required />
+          <input id="locationText" type="text" placeholder="Austin, TX" required />
+          <div class="query-actions">
+            <button id="mic-btn" type="button" class="icon-btn" title="Voice input">Mic</button>
+            <button type="submit" class="submit-btn">Find Quotes</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="questionnaire-card" class="card questionnaire-card hidden">
+        <h3>Quick Questions</h3>
+        <p id="questionnaire-subtitle" class="questionnaire-subtitle">
+          Answer these to improve quote accuracy before we contact vendors.
+        </p>
+        <div id="questionnaire-fields" class="questionnaire-grid"></div>
+        <div class="questionnaire-actions">
+          <button id="questionnaire-skip" type="button" class="icon-btn">Skip</button>
+          <button id="questionnaire-submit" type="button" class="submit-btn">Start Vendor Outreach</button>
+        </div>
+      </section>
+
+      <section class="results-grid">
+        <article class="card">
+          <h3>Job Status</h3>
+          <div id="job-meta" class="meta-list"></div>
+        </article>
+
+        <article class="card">
+          <h3>Top Quotes</h3>
+          <div id="top-quotes" class="quote-list empty">Submit a request to begin.</div>
+        </article>
+
+        <article class="card full-width">
+          <h3>Vendors</h3>
+          <div id="vendors" class="vendor-list empty">No vendors yet.</div>
+        </article>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
