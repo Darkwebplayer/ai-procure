@@ -28,6 +28,21 @@ pnpm install --no-frozen-lockfile
 pnpm dev
 ```
 
+## Docker
+
+Run with Docker Compose (recommended):
+
+```bash
+docker compose up --build
+```
+
+The app will be available at `http://localhost:3000`.
+
+Notes:
+- `.env` is loaded via `docker-compose.yml`.
+- SQLite data is persisted in the named volume `app_data`.
+- Inside the container, DB path is set to `/app/data/voiceprocure.db`.
+
 ## Important test-call behavior
 
 Real outbound calls are currently overridden to this test number for every vendor:

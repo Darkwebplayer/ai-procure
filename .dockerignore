@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.pnpm-store
+.env
+.env.*
+*.db
+*.db-shm
+*.db-wal
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
