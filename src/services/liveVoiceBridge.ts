@@ -206,6 +206,8 @@ const bufferFromUnknown = (payload: unknown): Buffer | null => {
 
 export class TwilioGeminiLiveBridge {
   private static readonly SILENCE_FALLBACK_MS = 8000;
+  private static readonly TWILIO_OUT_CHUNK_BYTES = 80; // 10ms @ 8k mulaw
+  private static readonly MAX_PENDING_AUDIO_CHUNKS = 12; // cap temporary backlog to ~120ms
   private readonly wss: WebSocketServer;
   private readonly ai: GoogleGenAI;
 
@@ -504,6 +506,12 @@ export class TwilioGeminiLiveBridge {
 
   private sendTwilioMedia(state: BridgeState, payloadBase64: string): void {
     if (!state.streamSid || state.ws.readyState !== 1) {
+      if (state.pendingAudioPayloads.length >= TwilioGeminiLiveBridge.MAX_PENDING_AUDIO_CHUNKS) {
+        state.pendingAudioPayloads.shift();
+        this.logStep(state, "pending_audio_dropped", {
+          maxPendingChunks: TwilioGeminiLiveBridge.MAX_PENDING_AUDIO_CHUNKS
+        });
+      }
       state.pendingAudioPayloads.push(payloadBase64);
       return;
     }
@@ -852,7 +860,7 @@ export class TwilioGeminiLiveBridge {
       const geminiPcm = pcmBufferToInt16(pcmBuffer);
       const twilioPcm = resampleLinear(geminiPcm, pcmRate, 8000);
       const twilioMulaw = encodeMuLawBuffer(twilioPcm);
-      const twilioChunks = chunkBuffer(twilioMulaw, 160);
+      const twilioChunks = chunkBuffer(twilioMulaw, TwilioGeminiLiveBridge.TWILIO_OUT_CHUNK_BYTES);
       const playbackMs = twilioChunks.length * 20;
       if (!state.didSendGeminiAudio) {
         state.didSendGeminiAudio = true;
