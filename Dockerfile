@@ -28,4 +28,4 @@ COPY --from=build /app/src/schema.sql ./src/schema.sql
 COPY package.json ./
 
 EXPOSE 3000
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/src/server.js"]
